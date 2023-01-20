@@ -1,4 +1,5 @@
-from flask import Flask, request, send_file, CORS
+from flask import Flask, request, send_file
+from flask_cors import CORS
 from getter import getCSV
 import os
 
