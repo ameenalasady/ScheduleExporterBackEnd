@@ -16,8 +16,6 @@ def getICSID(htmldoc):
 
 
 def getCSV(userid, password):
-    print("called")
-
     # directory = os.path.join(os.getcwd(), "output")
 
     # current_directory = os.path.abspath(os.path.dirname(__file__))
@@ -397,7 +395,5 @@ def getCSV(userid, password):
     # output = f.read()
 
     os.chdir('..')
-
-    print(html)
     return html, filename
     # input("Press any button to exit.")
