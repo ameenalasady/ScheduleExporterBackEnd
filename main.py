@@ -8,6 +8,7 @@ app = Flask(__name__)
 
 @app.route("/csv")
 def returnCSV():
+    print("Got request")
     username = request.args.get("username")
     password = request.args.get("password")
     print(username, password)
@@ -17,6 +18,7 @@ def returnCSV():
 
 @app.route("/download")
 def downloadFile():
+    print("Got request")
     username = request.args.get("username")
     password = request.args.get("password")
     print(username, password)
