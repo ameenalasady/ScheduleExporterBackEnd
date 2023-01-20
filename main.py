@@ -8,24 +8,30 @@ app = Flask(__name__)
 
 @app.route("/csv")
 def returnCSV():
-    print("Got request")
-    username = request.args.get("username")
-    password = request.args.get("password")
-    print(username, password)
-    responseFromMain = getCSV(str(username), str(password))
-    return responseFromMain[0]
+    try:
+        print("Got request")
+        username = request.args.get("username")
+        password = request.args.get("password")
+        print(username, password)
+        responseFromMain = getCSV(str(username), str(password))
+        return responseFromMain[0]
+    except:
+        return
 
 
 @app.route("/download")
 def downloadFile():
-    print("Got request")
-    username = request.args.get("username")
-    password = request.args.get("password")
-    print(username, password)
-    responseFromMain = getCSV(str(username), str(password))
-    filename = responseFromMain[1]+".csv"
+    try:
+        print("Got request")
+        username = request.args.get("username")
+        password = request.args.get("password")
+        print(username, password)
+        responseFromMain = getCSV(str(username), str(password))
+        filename = responseFromMain[1]+".csv"
 
-    return send_file("C:\\GitHubRepos\\ScheduleExporterWebApp\\flask-server\output\\"+filename, as_attachment=True)
+        return send_file("C:\\GitHubRepos\\ScheduleExporterWebApp\\flask-server\output\\"+filename, as_attachment=True)
+    except:
+        return
 
 
 if __name__ == "__main__":
