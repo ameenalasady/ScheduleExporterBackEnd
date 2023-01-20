@@ -1,18 +1,18 @@
-from flask import Flask, request, send_file
+from flask import Flask, request, send_file, CORS
 from getter import getCSV
 import os
 
 
 app = Flask(__name__)
+CORS(app)
+app.config['CORS_HEADERS'] = 'Content-Type'
 
 
 @app.route("/csv")
 def returnCSV():
     try:
-        print("Got request")
         username = request.args.get("username")
         password = request.args.get("password")
-        print(username, password)
         responseFromMain = getCSV(str(username), str(password))
         return responseFromMain[0]
     except:
@@ -22,10 +22,8 @@ def returnCSV():
 @app.route("/download")
 def downloadFile():
     try:
-        print("Got request")
         username = request.args.get("username")
         password = request.args.get("password")
-        print(username, password)
         responseFromMain = getCSV(str(username), str(password))
         filename = responseFromMain[1]+".csv"
 
