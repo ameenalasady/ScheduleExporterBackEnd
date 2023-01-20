@@ -15,7 +15,8 @@ def returnCSV():
         password = request.args.get("password")
         responseFromMain = getCSV(str(username), str(password))
         return responseFromMain[0]
-    except:
+    except Exception as e:
+        print(e)
         return "An error occurred while retrieving the schedule"
 
 
@@ -35,7 +36,8 @@ def downloadFile():
         print(filename)
 
         return send_file(filename, as_attachment=True)
-    except:
+    except Exception as e:
+        print(e)
         return "An error occurred while downloading the schedule"
 
 
