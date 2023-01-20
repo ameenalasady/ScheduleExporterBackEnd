@@ -406,6 +406,5 @@ def getCSV(userid, password):
     # f = open(filename+".csv", "r")
     # output = f.read()
 
-    os.chdir('..')
     return html, filename
     # input("Press any button to exit.")
