@@ -29,7 +29,7 @@ def getCSV(userid, password):
     # if str(current_directory).split("\\")[-1] != "output":
     #     os.chdir("output")
 
-    os.chdir(fr"C:\GitHubRepos\ScheduleExporterWebApp\flask-server\output")
+    # os.chdir(fr"C:\GitHubRepos\ScheduleExporterWebApp\flask-server\output")
 
     now = datetime.now()
 
