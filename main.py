@@ -16,7 +16,7 @@ def returnCSV():
         responseFromMain = getCSV(str(username), str(password))
         return responseFromMain[0]
     except:
-        return
+        return "An error occurred while retrieving the schedule"
 
 
 @app.route("/download")
@@ -27,9 +27,16 @@ def downloadFile():
         responseFromMain = getCSV(str(username), str(password))
         filename = responseFromMain[1]+".csv"
 
-        return send_file("C:\\GitHubRepos\\ScheduleExporterWebApp\\flask-server\output\\"+filename, as_attachment=True)
+        filecontents = responseFromMain[0]
+        f = open(filename, "w")
+        f.write(filecontents)
+        f.close()
+
+        print(filename)
+
+        return send_file(filename, as_attachment=True)
     except:
-        return
+        return "An error occurred while downloading the schedule"
 
 
 if __name__ == "__main__":

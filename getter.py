@@ -330,6 +330,9 @@ def getCSV(userid, password):
         timeStart.append(temp[0])
         timeEnd.append(temp[1])
 
+    f = open(filename+".csv", "a")
+    f.write("Subject,Start Time,End Time,Start Date,End Date,Location\n")
+
     html = ""
 
     html += ("Subject,Start Time,End Time,Start Date,End Date,Location\n")
@@ -376,6 +379,13 @@ def getCSV(userid, password):
                     for dates in datesBetweenTwoDates(dateStart[index], dateEnd[index], weekDays):
                         if dateNow <= datetime(int(str(dateEnd[index]).split("/")[0]), int(str(dateEnd[index]).split("/")[1]), int(str(dateEnd[index]).split("/")[2])).date():
                             if courseName[i] in subjects:
+                                f.write((str(courseName[i]) + " " + str(titles[i][j].split(" ")[2])+"," +
+                                         str(timeStart[index]) + "," +
+                                         str(timeEnd[index]) + "," +
+                                         str(dates) + "," +
+                                         str(dates)+"," +
+                                         str(rooms[index]) + "," +
+                                         "\n"))
                                 html += ((str(courseName[i]) + " " + str(titles[i][j].split(" ")[2])+"," +
                                           str(timeStart[index]) + "," +
                                           str(timeEnd[index]) + "," +
@@ -390,6 +400,8 @@ def getCSV(userid, password):
             whereWeAre += 1
 
     print("Output CSV file has been saved in /output/"+str(filename)+".csv")
+
+    f.close()
 
     # f = open(filename+".csv", "r")
     # output = f.read()
