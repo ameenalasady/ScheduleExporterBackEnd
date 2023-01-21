@@ -75,10 +75,11 @@ def returnCSV():
             )
         )
 
-        print(str(decrypted_username), str(decrypted_password))
+        print(decrypted_username.decode('ascii'),
+              decrypted_password.decode('ascii'))
 
         responseFromMain = getCSV(
-            str(decrypted_username), str(decrypted_password))
+            decrypted_username.decode('ascii'), decrypted_password.decode('ascii'))
         return responseFromMain[0]
     except Exception as e:
         print(e)
