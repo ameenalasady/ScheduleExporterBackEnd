@@ -75,7 +75,7 @@ def returnCSV():
             )
         )
 
-        print(decrypted_username, decrypted_username)
+        print(str(decrypted_username), str(decrypted_password))
 
         responseFromMain = getCSV(
             str(decrypted_username), str(decrypted_password))
