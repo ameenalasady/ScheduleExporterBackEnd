@@ -48,11 +48,13 @@ def returnCSV():
         username = request.args.get("username")
         password = request.args.get("password")
 
+        print(str(username), str(password))
+
         # Decode the base64 encoded username and password
         decoded_username = base64.b64decode(username)
         decoded_password = base64.b64decode(password)
 
-        print(decoded_username, decoded_password)
+        print(str(decoded_username), str(decoded_password))
 
         # Decrypt the username and password
         decrypted_username = private_key.decrypt(
