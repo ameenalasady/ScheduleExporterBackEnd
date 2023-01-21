@@ -74,7 +74,7 @@ def returnCSV():
                 label=None
             )
         )
-
+        # The decrypted credentials are in "binary string"
         print(decrypted_username.decode('ascii'),
               decrypted_password.decode('ascii'))
 
