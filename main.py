@@ -1,8 +1,10 @@
 from flask import Flask, request, send_file
 from flask_cors import CORS
 from getter import getCSV
+import base64
 from cryptography.hazmat.backends import default_backend
-from cryptography.hazmat.primitives import serialization, asymmetric, padding, hashes
+from cryptography.hazmat.primitives import serialization, asymmetric, hashes
+from cryptography.hazmat.primitives.asymmetric import padding
 import os
 
 
@@ -46,9 +48,13 @@ def returnCSV():
         username = request.args.get("username")
         password = request.args.get("password")
 
+        # Decode the base64 encoded username and password
+        decoded_username = base64.b64decode(username)
+        decoded_password = base64.b64decode(password)
+
         # Decrypt the username and password
         decrypted_username = private_key.decrypt(
-            username,
+            decoded_username,
             padding.OAEP(
                 mgf=padding.MGF1(algorithm=hashes.SHA256()),
                 algorithm=hashes.SHA256(),
@@ -57,7 +63,7 @@ def returnCSV():
         )
 
         decrypted_password = private_key.decrypt(
-            password,
+            decoded_password,
             padding.OAEP(
                 mgf=padding.MGF1(algorithm=hashes.SHA256()),
                 algorithm=hashes.SHA256(),
