@@ -14,7 +14,6 @@ private_key = asymmetric.rsa.generate_private_key(
     key_size=2048
 )
 
-
 # generate public key
 public_key = private_key.public_key()
 
@@ -71,8 +70,6 @@ def returnCSV():
             )
         )
         # The decrypted credentials are in "binary string"
-        print(decrypted_username.decode('ascii'),
-              decrypted_password.decode('ascii'))
 
         responseFromMain = getCSV(
             decrypted_username.decode('ascii'), decrypted_password.decode('ascii'))
@@ -112,19 +109,16 @@ def downloadFile():
         )
 
         # The decrypted credentials are in "binary string"
-        print(decrypted_username.decode('ascii'),
-              decrypted_password.decode('ascii'))
 
         responseFromMain = getCSV(
             decrypted_username.decode('ascii'), decrypted_password.decode('ascii'))
+
         filename = responseFromMain[1]+".csv"
 
         filecontents = responseFromMain[0]
         f = open(filename, "w")
         f.write(filecontents)
         f.close()
-
-        print(filename)
 
         return send_file(filename, as_attachment=True)
     except Exception as e:
