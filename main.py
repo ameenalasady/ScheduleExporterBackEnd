@@ -48,13 +48,9 @@ def returnCSV():
         username = request.args.get("username")
         password = request.args.get("password")
 
-        print(str(username), str(password))
-
         # Decode the base64 encoded username and password
         decoded_username = base64.b64decode(username)
         decoded_password = base64.b64decode(password)
-
-        print(str(decoded_username), str(decoded_password))
 
         # Decrypt the username and password
         decrypted_username = private_key.decrypt(
@@ -91,7 +87,36 @@ def downloadFile():
     try:
         username = request.args.get("username")
         password = request.args.get("password")
-        responseFromMain = getCSV(str(username), str(password))
+
+        # Decode the base64 encoded username and password
+        decoded_username = base64.b64decode(username)
+        decoded_password = base64.b64decode(password)
+
+        # Decrypt the username and password
+        decrypted_username = private_key.decrypt(
+            decoded_username,
+            padding.OAEP(
+                mgf=padding.MGF1(algorithm=hashes.SHA256()),
+                algorithm=hashes.SHA256(),
+                label=None
+            )
+        )
+
+        decrypted_password = private_key.decrypt(
+            decoded_password,
+            padding.OAEP(
+                mgf=padding.MGF1(algorithm=hashes.SHA256()),
+                algorithm=hashes.SHA256(),
+                label=None
+            )
+        )
+
+        # The decrypted credentials are in "binary string"
+        print(decrypted_username.decode('ascii'),
+              decrypted_password.decode('ascii'))
+
+        responseFromMain = getCSV(
+            decrypted_username.decode('ascii'), decrypted_password.decode('ascii'))
         filename = responseFromMain[1]+".csv"
 
         filecontents = responseFromMain[0]
