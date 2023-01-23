@@ -9,6 +9,7 @@ import os
 import csv
 from io import StringIO
 from datetime import datetime
+from flask import jsonify
 
 
 # generate private key
@@ -189,7 +190,7 @@ def calenderView():
         # Append the event to the list of events
         events.append(event)
 
-    return (events)
+    return jsonify((events))
 
 # The 'events' variable now contains the list of events in the desired format
 
