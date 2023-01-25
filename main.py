@@ -36,106 +36,7 @@ public_pem = public_key.public_bytes(
 )
 
 
-app = Flask(__name__)
-CORS(app)
-
-
-@app.route('/public_key', methods=['GET'])
-def get_public_key():
-    return public_pem
-
-
-@app.route("/csv")
-def returnCSV():
-    try:
-        username = request.args.get("username")
-        password = request.args.get("password")
-
-        # Decode the base64 encoded username and password
-        decoded_username = base64.b64decode(username)
-        decoded_password = base64.b64decode(password)
-
-        # Decrypt the username and password
-        decrypted_username = private_key.decrypt(
-            decoded_username,
-            padding.OAEP(
-                mgf=padding.MGF1(algorithm=hashes.SHA256()),
-                algorithm=hashes.SHA256(),
-                label=None
-            )
-        )
-
-        decrypted_password = private_key.decrypt(
-            decoded_password,
-            padding.OAEP(
-                mgf=padding.MGF1(algorithm=hashes.SHA256()),
-                algorithm=hashes.SHA256(),
-                label=None
-            )
-        )
-        # The decrypted credentials are in "binary string"
-
-        responseFromMain = getCSV(
-            decrypted_username.decode('ascii'), decrypted_password.decode('ascii'))
-        return responseFromMain[0]
-    except Exception as e:
-        print(e)
-        return "An error occurred while retrieving the schedule"
-
-
-@app.route("/download")
-def downloadFile():
-    try:
-        username = request.args.get("username")
-        password = request.args.get("password")
-
-        # Decode the base64 encoded username and password
-        decoded_username = base64.b64decode(username)
-        decoded_password = base64.b64decode(password)
-
-        # Decrypt the username and password
-        decrypted_username = private_key.decrypt(
-            decoded_username,
-            padding.OAEP(
-                mgf=padding.MGF1(algorithm=hashes.SHA256()),
-                algorithm=hashes.SHA256(),
-                label=None
-            )
-        )
-
-        decrypted_password = private_key.decrypt(
-            decoded_password,
-            padding.OAEP(
-                mgf=padding.MGF1(algorithm=hashes.SHA256()),
-                algorithm=hashes.SHA256(),
-                label=None
-            )
-        )
-
-        # The decrypted credentials are in "binary string"
-
-        responseFromMain = getCSV(
-            decrypted_username.decode('ascii'), decrypted_password.decode('ascii'))
-
-        filename = responseFromMain[1]+".csv"
-
-        filecontents = responseFromMain[0]
-        f = open(filename, "w")
-        f.write(filecontents)
-        f.close()
-
-        return send_file(filename, as_attachment=True)
-    except Exception as e:
-        print(e)
-        return "An error occurred while downloading the schedule"
-
-
-@app.route("/calendarview")
-def calenderView():
-
-    username = request.args.get("username")
-    password = request.args.get("password")
-
+def encodedToDecrypted(username, password):
     # Decode the base64 encoded username and password
     decoded_username = base64.b64decode(username)
     decoded_password = base64.b64decode(password)
@@ -158,10 +59,73 @@ def calenderView():
             label=None
         )
     )
+
     # The decrypted credentials are in "binary string"
+    stringUsername = decrypted_username.decode('ascii')
+    stringPassword = decrypted_password.decode('ascii')
+
+    return (stringUsername, stringPassword)
+
+
+app = Flask(__name__)
+CORS(app)
+
+
+@app.route('/public_key', methods=['GET'])
+def get_public_key():
+    return public_pem
+
+
+@app.route("/csv")
+def returnCSV():
+    try:
+        username = request.args.get("username")
+        password = request.args.get("password")
+
+        stringUsername, stringPassword = encodedToDecrypted(username, password)
+
+        responseFromMain = getCSV(
+            stringUsername, stringPassword)
+        return responseFromMain[0]
+    except Exception as e:
+        print(e)
+        return "An error occurred while retrieving the schedule"
+
+
+@app.route("/download")
+def downloadFile():
+    try:
+        username = request.args.get("username")
+        password = request.args.get("password")
+
+        stringUsername, stringPassword = encodedToDecrypted(username, password)
+
+        responseFromMain = getCSV(
+            stringUsername, stringPassword)
+
+        filename = responseFromMain[1]+".csv"
+
+        filecontents = responseFromMain[0]
+        f = open(filename, "w")
+        f.write(filecontents)
+        f.close()
+
+        return send_file(filename, as_attachment=True)
+    except Exception as e:
+        print(e)
+        return "An error occurred while downloading the schedule"
+
+
+@app.route("/calendarview")
+def calenderView():
+
+    username = request.args.get("username")
+    password = request.args.get("password")
+
+    stringUsername, stringPassword = encodedToDecrypted(username, password)
 
     responseFromMain = getCSV(
-        decrypted_username.decode('ascii'), decrypted_password.decode('ascii'))
+        stringUsername, stringPassword)
 
     csvString = responseFromMain[0]
 
