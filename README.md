@@ -19,11 +19,11 @@ You can access the live version of the webapp [here](https://western-schedule-ex
 
 ## Link to the Backend's backbone Repository
 
-The backbone for this backend can be found [here](https://github.com/ameenalasady/ScheduleExporterBackEnd)
+The backbone for this backend can be found [here](https://github.com/ameenalasady/uwoTimetableCSV).
 
 ## Link to the Frontend Repository
 
-The frontend for this application can be found [here](https://github.com/ameenalasady/uwoTimetableCSV).
+The frontend for this application can be found [here](https://github.com/ameenalasady/ScheduleExporterFrontEnd).
 
 ## Pull Requests
 
