@@ -1,5 +1,7 @@
 # Schedule Export Backend
 
+##IMPORTANT: AS OF APRIL 5TH, THIS TOOL NO LONGER WORKS DUE TO THE INTRODUCTION OF 2FA TO STUDENT CENTER. THIS WILL BE FIXED IN THE FUTURE.
+
 This repository contains the backend code for the Schedule Export web application. The application is built using Flask and utilizes end-to-end RSA encryption to ensure the security of user information.
 
 ## Usage
